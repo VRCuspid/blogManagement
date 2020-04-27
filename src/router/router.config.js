@@ -1,6 +1,6 @@
 import Login from '@/views/Login'
 import Home from '@/views/Home'
-import ArticleList from '@/views/ArticleList'
+import Articlelist from '@/views/Article/Articlelist'
 // import {BookFilled} from '@ant-design/icons'
 const RouterConfig = [
   {
@@ -8,8 +8,8 @@ const RouterConfig = [
     component: Home,
     child:[
       {
-        path:'/article/ArticleList',
-        component: ArticleList
+        path:'/article/Articlelist',
+        component: Articlelist
       }
     ]
   },
@@ -29,7 +29,7 @@ const MenuRoute = [
       {
         id:101,
         name:'文章列表',
-        path:'/article/ArticleList'
+        path:'/article/Articlelist'
       },{
         id:102,
         name:'新增文章',
