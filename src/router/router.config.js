@@ -24,6 +24,7 @@ const MenuRoute = [
   {
     name:'文章',
     id:100,
+    path:'article',
     children: [
       {
         id:101,

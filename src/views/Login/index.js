@@ -19,7 +19,7 @@ class Login extends React.Component {
                 <Input
                   prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
                   placeholder="Username"
-                />,
+                />
               )}
             </Form.Item>
             <Form.Item>
@@ -30,7 +30,7 @@ class Login extends React.Component {
                   prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
                   type="password"
                   placeholder="Password"
-                />,
+                />
               )}
             </Form.Item>
             <Form.Item>
