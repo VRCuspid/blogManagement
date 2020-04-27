@@ -1,0 +1,22 @@
+.home-container {
+  display: flex;
+  height: 100%;
+  width: 100%;
+}
+.home-aside {
+  width: 200px;
+  height: 100%;
+}
+.home-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.home-content-title {
+  height: 44px;
+  width: 100%;
+}
+.home-content-container {
+  flex: 1;
+  background: #F5F6FA;
+}
