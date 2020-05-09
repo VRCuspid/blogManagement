@@ -4,3 +4,14 @@ body,html,#root,.App,.layout_container {
   margin: 0;
   padding: 0;
 }
+
+.wrapper {
+  background: #fff;
+  margin-top: 10px;
+}
+.router-container {
+  padding: 10px 20px;
+}
+.m-right20 {
+  margin-right: 20px;
+}

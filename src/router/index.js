@@ -1,9 +1,12 @@
 import React from 'react'
 import RouterConfig from './router.config.js'
 import { Switch, Route, withRouter } from 'react-router-dom'
+import { getToken } from '@/utils/auth'
 class RouterView extends React.Component {
   render () {
     const {routes} = this.props
+    const token = getToken()
+    console.log(token,'token')
     return <Switch>
       {
         routes.map(item=>{

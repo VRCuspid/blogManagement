@@ -1,6 +1,7 @@
 import Login from '@/views/Login'
 import Home from '@/views/Home'
 import Articlelist from '@/views/Article/Articlelist'
+import ArticleEditor from '@/views/Article/ArticleEditor'
 // import {BookFilled} from '@ant-design/icons'
 const RouterConfig = [
   {
@@ -9,13 +10,18 @@ const RouterConfig = [
     child:[
       {
         path:'/article/Articlelist',
-        component: Articlelist
+        component: Articlelist,
+      },{
+        path:'/article/Articleadd',
+        component: ArticleEditor,
+      },{
+        path:'/article/Articleedit',
+        component: ArticleEditor,
       }
     ]
   },
   {
     path: '/login',
-    exact:true,
     component: Login
   }
 ]
