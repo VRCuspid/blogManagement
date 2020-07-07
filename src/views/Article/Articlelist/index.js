@@ -89,7 +89,11 @@ class Home extends React.Component {
   tableChange = (pagination) => {
     console.log(pagination)
     this.setState({
-      pagination
+      pagination:{
+        ...pagination
+      }
+    },()=>{
+      this.getActicleList()
     })
   }
   getActicleList = () => {
@@ -110,7 +114,7 @@ class Home extends React.Component {
 
   updateArticle = (item) => {
     const { id } = item
-    this.props.history.push('/article/Articleedit?id='+id)
+    this.props.history.push('/article/Articleedit?isEdit=1&id='+id)
   }
 }
 

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Form,Input,Button,message } from 'antd'
 import SimpleMDE from "react-simplemde-editor";
-import {addArticle,getActicleDetail} from '@/api/acticle'
+import {addArticle,getActicleDetail,updateActicle} from '@/api/acticle'
 import showdown from 'showdown'
 import { getQueryObj } from '@/utils'
 import "easymde/dist/easymde.min.css";
@@ -95,20 +95,33 @@ class ArticleAdd extends React.Component  {
         </div>
     }
     save = () => {
+        const query = getQueryObj(this.props.location.search)
+        const { isEdit,id } = query
         this.props.form.validateFields().then(res=>{
-            const converter = new showdown.Converter()
-            const act_detail = converter.makeHtml(res.act_detail).replace(/\s\s+/g,'').replace(/\n/g,'<br/>').replace(/'/g,'"')
-            console.log(act_detail)
-            addArticle({...res,act_detail}).then(response=>{
-                console.log(response)
-                if (response.res) {
-                    message.success(response.msg)
-                    this.props.history.goBack()
-                }
-            })
-            // console.log(this.ins.value())
+            // const converter = new showdown.Converter()
+            const act_detail = res.act_detail
+            isEdit ? 
+            this.updateActicle({...res,act_detail,id}) : 
+            this.addArticle({...res,act_detail})
         }).catch(error=>{
             console.log(error)
+        })
+    }
+    updateActicle(parmars) {
+        updateActicle(parmars).then(response=>{
+            if (response.res) {
+                message.success(response.msg)
+                this.props.history.goBack()
+            }
+        })
+    }
+    addArticle(parmars) {
+        addArticle(parmars).then(response=>{
+            console.log(response)
+            if (response.res) {
+                message.success(response.msg)
+                this.props.history.goBack()
+            }
         })
     }
 
@@ -120,7 +133,10 @@ class ArticleAdd extends React.Component  {
     }
     getEditorData() {
         const query = getQueryObj(this.props.location.search)
-        const { id } = query
+        const { isEdit,id } = query
+        if(!isEdit) {
+            return
+        }
         getActicleDetail({id}).then(res=>{
             console.log(res)
             if (res.res) {

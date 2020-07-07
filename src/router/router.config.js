@@ -39,7 +39,7 @@ const MenuRoute = [
       },{
         id:102,
         name:'新增文章',
-        path:'/article/AddArticle'
+        path:'/article/Articleadd'
       }
     ]
   }

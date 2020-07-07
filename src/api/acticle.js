@@ -9,6 +9,15 @@ export function addArticle (data) {
     })
 }
 
+// 修改文章
+export function updateActicle (data) {
+    return fetch({
+        url:'/api/acticle/update_acticle',
+        method:'POST',
+        data
+    })
+}
+
 // 文章列表
 export function getActicleList (params) {
     return fetch({
