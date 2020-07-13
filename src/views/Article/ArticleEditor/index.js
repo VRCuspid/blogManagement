@@ -89,10 +89,14 @@ class ArticleAdd extends React.Component  {
                     }
                 </Form.Item>
                 <Form.Item wrapperCol={{ span: 12, offset: 5 }}>
-                    <Button onClick={this.save} type="primary" htmlType="submit" >保存</Button>
+                    <Button className="m-right20" onClick={this.save} type="primary" htmlType="submit" >保存</Button>
+                    <Button onClick={this.back} type="primary" htmlType="submit" >返回</Button>
                 </Form.Item>
             </Form>
         </div>
+    }
+    back = () => {
+        this.props.history.goBack()
     }
     save = () => {
         const query = getQueryObj(this.props.location.search)

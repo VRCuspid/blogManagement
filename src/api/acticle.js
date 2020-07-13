@@ -18,6 +18,16 @@ export function updateActicle (data) {
     })
 }
 
+// 删除文章
+export function delActicle (data) {
+    return fetch({
+        url:'/api/acticle/del_acticle',
+        method:'DELETE',
+        data
+    })
+}
+
+
 // 文章列表
 export function getActicleList (params) {
     return fetch({

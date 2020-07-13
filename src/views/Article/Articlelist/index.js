@@ -1,7 +1,7 @@
 import React from 'react'
 import './index.scss'
-import { Table,Row,Col,Input,Button } from 'antd'
-import {getActicleList} from '@/api/acticle'
+import { Table,Row,Col,Input,Button,Modal,message } from 'antd'
+import {getActicleList,delActicle} from '@/api/acticle'
 class Home extends React.Component {
   constructor (props) {
     super(props)
@@ -38,7 +38,7 @@ class Home extends React.Component {
           render:(item) => {
             return <div>
               <span onClick={()=>this.updateArticle(item)} className="primary">修改</span>
-              <span className="danger">删除</span>
+              <span onClick={()=>this.delArticle(item)} className="danger">删除</span>
             </div>
           }
         }
@@ -85,7 +85,22 @@ class Home extends React.Component {
       </div>
     </div>
   }
-
+  delArticle = ({id}) => {
+    // delActicle
+    var _t = this
+    Modal.confirm({
+      title:'提示',
+      content:'是否确定删除?',
+      onOk() {
+        delActicle({id}).then(response=>{
+          if(response.res) {
+            message.success(response.msg)
+            _t.getActicleList()
+          }
+        })
+      }
+    })
+  }
   tableChange = (pagination) => {
     console.log(pagination)
     this.setState({

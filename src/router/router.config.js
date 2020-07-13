@@ -28,21 +28,26 @@ const RouterConfig = [
 
 const MenuRoute = [
   {
-    name:'文章',
-    id:100,
-    path:'article',
-    children: [
-      {
-        id:101,
-        name:'文章列表',
-        path:'/article/Articlelist'
-      },{
-        id:102,
-        name:'新增文章',
-        path:'/article/Articleadd'
-      }
-    ]
-  }
+    id:101,
+    name:'文章管理',
+    path:'/article/Articlelist'
+  },
+  // {
+  //   name:'文章',
+  //   id:100,
+  //   path:'article',
+  //   children: [
+  //     {
+  //       id:101,
+  //       name:'文章列表',
+  //       path:'/article/Articlelist'
+  //     },{
+  //       id:102,
+  //       name:'新增文章',
+  //       path:'/article/Articleadd'
+  //     }
+  //   ]
+  // }
 ]
 
 export { MenuRoute,RouterConfig }
