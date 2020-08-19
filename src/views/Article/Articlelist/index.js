@@ -47,7 +47,7 @@ class Home extends React.Component {
         current: 1,
         pageSize: 10,
         total: 20
-      }
+      },
     }
   }
   componentDidMount() {

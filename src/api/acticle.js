@@ -45,3 +45,11 @@ export function getActicleDetail (params) {
         params
     })
 }
+
+export default {
+    addArticle,
+    updateActicle,
+    delActicle,
+    getActicleList,
+    getActicleDetail,
+}
