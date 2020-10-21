@@ -9,6 +9,7 @@ class Home extends React.Component {
     this.state = {}
   }
   render () {
+    console.log(this.props,'routesssss')
     return <div className="home-container">
       <div className="home-aside">
         <MenuList />

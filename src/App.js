@@ -5,6 +5,7 @@ import RouterView,{RouterConfig as routes} from '@/router'
 import {withRouter} from 'react-router'
 class App extends React.Component {
   render () {
+    console.log(routes,'RouterConfig')
     return <div className="App">
       <RouterView routes={routes} />
     </div>

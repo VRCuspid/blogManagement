@@ -2,8 +2,15 @@ import Login from '@/views/Login'
 import Home from '@/views/Home'
 import Articlelist from '@/views/Article/Articlelist'
 import ArticleEditor from '@/views/Article/ArticleEditor'
+import Taglist from '@/views/Tag/Taglist'
+import TagEditor from '@/views/Tag/TagEditor'
 // import {BookFilled} from '@ant-design/icons'
 const RouterConfig = [
+  {
+    path: '/login',
+    component: Login,
+    exact:true
+  },
   {
     path: '/',
     component: Home,
@@ -17,13 +24,18 @@ const RouterConfig = [
       },{
         path:'/article/Articleedit',
         component: ArticleEditor,
-      }
+      },{
+        path:'/tag/Taglist',
+        component: Taglist
+      },{
+        path: '/tag/Tagadd',
+        component: TagEditor
+      },{
+        path: '/tag/Tagedit',
+        component: TagEditor
+      },
     ]
   },
-  {
-    path: '/login',
-    component: Login
-  }
 ]
 
 const MenuRoute = [
@@ -32,22 +44,11 @@ const MenuRoute = [
     name:'文章管理',
     path:'/article/Articlelist'
   },
-  // {
-  //   name:'文章',
-  //   id:100,
-  //   path:'article',
-  //   children: [
-  //     {
-  //       id:101,
-  //       name:'文章列表',
-  //       path:'/article/Articlelist'
-  //     },{
-  //       id:102,
-  //       name:'新增文章',
-  //       path:'/article/Articleadd'
-  //     }
-  //   ]
-  // }
+  {
+    id:201,
+    name:'标签管理',
+    path:'/tag/Taglist',
+  }
 ]
 
 export { MenuRoute,RouterConfig }

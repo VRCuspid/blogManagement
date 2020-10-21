@@ -6,7 +6,7 @@ class RouterView extends React.Component {
   render () {
     const {routes} = this.props
     const token = getToken()
-    console.log(token,'token')
+    console.log(routes,'routes')
     return <Switch>
       {
         routes.map(item=>{
@@ -15,7 +15,7 @@ class RouterView extends React.Component {
             key={item.path}
             path={item.path}
             render={
-              (props)=> <item.component {...props} routes={item.child}></item.component>
+              (props)=> <item.component {...props} routes={item.child||[]}></item.component>
             }
           />
         })
