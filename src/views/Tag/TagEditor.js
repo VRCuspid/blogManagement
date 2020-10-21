@@ -1,6 +1,6 @@
 import React from 'react'
 import { Form,Input,Button,message,Tag } from 'antd'
-import {addArticle,getActicleDetail,updateActicle} from '@/api/acticle'
+import { addTag,getTagDetail,updateTag } from '@/api/tag'
 import { getQueryObj } from '@/utils'
 // import { ChromePicker } from 'react-color'
 import ColorPicker from '@/components/colorPicker'
@@ -25,6 +25,7 @@ class ArticleAdd extends React.Component  {
     }
     render() {
         const { getFieldDecorator,getFieldValue } = this.props.form
+        let { tag_color } = this.state
         return <div className="wrapper form-content">
             <Form {...formTailLayout}  size="middle">
                 <Form.Item name="tag_name" label="标签名称">
@@ -45,13 +46,12 @@ class ArticleAdd extends React.Component  {
                                 { required: true, message:'请选择标签颜色' }
                             ]
                         })(
-                            <ColorPicker color={this.state.tag_color} onChange={this.colorChange} />
-                            // <ChromePicker color={this.state.tag_color} onChange={this.colorChange} />
+                            <ColorPicker color={tag_color} onChange={this.colorChange} />
                         )
                     }
                 </Form.Item>
                 <Form.Item label="标签实例">
-                    <Tag color={this.state.tag_color}>
+                    <Tag color={tag_color}>
                         { this.state.tag_name || '标签' }
                     </Tag>
                 </Form.Item>
@@ -67,13 +67,13 @@ class ArticleAdd extends React.Component  {
     }
     save = () => {
         const query = getQueryObj(this.props.location.search)
-        const { isEdit,id } = query
+        const { id } = query
         this.props.form.validateFields().then(res=>{
             // const converter = new showdown.Converter()
-            const act_detail = res.act_detail
-            isEdit ? 
-            this.updateActicle({...res,act_detail,id}) : 
-            this.addArticle({...res,act_detail})
+            const { tag_color } = this.state
+            id ? 
+            this.updateTag({...res,tag_color,tag_id:id}) : 
+            this.addTag({...res,tag_color})
         }).catch(error=>{
             console.log(error)
         })
@@ -88,17 +88,16 @@ class ArticleAdd extends React.Component  {
             tag_name: e.target.value
         })
     }
-    updateActicle(parmars) {
-        updateActicle(parmars).then(response=>{
+    updateTag(parmars) {
+        updateTag(parmars).then(response=>{
             if (response.res) {
                 message.success(response.msg)
                 this.props.history.goBack()
             }
         })
     }
-    addArticle(parmars) {
-        addArticle(parmars).then(response=>{
-            console.log(response)
+    addTag(parmars) {
+        addTag(parmars).then(response=>{
             if (response.res) {
                 message.success(response.msg)
                 this.props.history.goBack()
@@ -114,14 +113,17 @@ class ArticleAdd extends React.Component  {
     }
     getEditorData() {
         const query = getQueryObj(this.props.location.search)
-        const { isEdit,id } = query
-        if(!isEdit) {
+        const { id } = query
+        if(!id) {
             return
         }
-        getActicleDetail({id}).then(res=>{
-            console.log(res)
+        getTagDetail({tag_id:id}).then(res=>{
             if (res.res) {
                 this.props.form.setFieldsValue(res.data)
+                this.setState({
+                    tag_color:res.data.tag_color,
+                    tag_name:res.data.tag_name
+                })
             }
         })
     }

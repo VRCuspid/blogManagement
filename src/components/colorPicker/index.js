@@ -6,14 +6,13 @@ class ColorPicker extends React.Component{
     constructor() {
         super()
         this.state = {
-            color:'',
             showPicker: false,
         }
     }
     render() {
         let { color } = this.props
         let { showPicker } = this.state
-
+        console.log(this.props)
         return <div className="colorPicker">
             <div className="color" onClick={this.tiggerShowPicker}>
                 <div className="showColor" style={{background:color}}></div>

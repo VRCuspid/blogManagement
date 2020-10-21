@@ -1,5 +1,6 @@
 import React from 'react'
 import { Form,Input,Button,message } from 'antd'
+import Editor from '@/components/MdEditor'
 import SimpleMDE from "react-simplemde-editor";
 import {addArticle,getActicleDetail,updateActicle} from '@/api/acticle'
 import showdown from 'showdown'
@@ -75,16 +76,15 @@ class ArticleAdd extends React.Component  {
                 </Form.Item>
 
                 <Form.Item name="act_detail" label="文章内容">
-                {/* {
+                {
                         getFieldDecorator('act_detail',{
                             rules: [
                                 { required: true, message:'请填写文章内容' }
                             ]
                         })(
-                            
-                              
+                            <Editor text={act_detail} onChange={this.handleEditorChange}></Editor>
                         )
-                    } */}
+                    }
                     {/* <SimpleMDE onChange={this.handleChange} />; */}
                     {/* <SimpleMDE
                             id="your-custom-id"
@@ -95,12 +95,12 @@ class ArticleAdd extends React.Component  {
                             //     toolbar
                             // }}
                         /> */}
-                        <MdEditor
-                            // value={act_detail}
+                        {/* <MdEditor
+                            value={act_detail}
                             style={{height:400}}
                             renderHTML={(text) => this.mdParser.render(text)}
                             onChange={this.handleEditorChange} 
-                        /> 
+                        />  */}
                 </Form.Item>
                 <Form.Item wrapperCol={{ span: 12, offset: 5 }}>
                     <Button className="m-right20" onClick={this.save} type="primary" htmlType="submit" >保存</Button>
@@ -117,7 +117,7 @@ class ArticleAdd extends React.Component  {
         const { id } = query
         this.props.form.validateFields().then(res=>{
             // const converter = new showdown.Converter()
-            const act_detail = res.act_detail
+            const act_detail = this.state.act_detail
             id ? 
             this.updateActicle({...res,act_detail,id}) : 
             this.addArticle({...res,act_detail})
@@ -135,6 +135,9 @@ class ArticleAdd extends React.Component  {
     }
     handleEditorChange = (e) => {    
         console.log('handleEditorChange', e)
+        this.props.form.setFieldsValue({
+            act_detail:e.text
+        })
         this.setState({
             act_detail:e.text
         })
@@ -162,9 +165,11 @@ class ArticleAdd extends React.Component  {
             return
         }
         getActicleDetail({id}).then(res=>{
-            console.log(res)
             if (res.res) {
                 this.props.form.setFieldsValue(res.data)
+                this.setState({act_detail:res.data.act_detail})
+            } else {
+                message.error
             }
         })
     }

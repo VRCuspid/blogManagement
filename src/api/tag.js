@@ -33,11 +33,11 @@ export function deleteTag (data) {
     })
 }
 
-export function getTagDetail (data) {
+export function getTagDetail (params) {
     return fetch({
         url:'/api/tag/get_tagDetail',
         method:'GET',
-        data
+        params
     })
 }
 export default {

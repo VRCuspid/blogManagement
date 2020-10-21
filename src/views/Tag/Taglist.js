@@ -1,7 +1,7 @@
 import React from 'react'
 import './Taglist.scss'
 import { Table,Row,Col,Input,Button,Modal,message } from 'antd'
-import {getActicleList,delActicle} from '@/api/acticle'
+import { getTagList,deleteTag } from '@/api/tag'
 class Home extends React.Component {
   constructor (props) {
     super(props)
@@ -43,7 +43,7 @@ class Home extends React.Component {
     }
   }
   componentDidMount() {
-    this.getActicleList()
+    this.getTagList()
   }
   render () {
     const {columns,dataSource,pagination} = this.state
@@ -77,17 +77,17 @@ class Home extends React.Component {
       </div>
     </div>
   }
-  delTag = ({id}) => {
+  delTag = ({ tag_id }) => {
     // delActicle
     var _t = this
     Modal.confirm({
       title:'提示',
       content:'是否确定删除?',
       onOk() {
-        delActicle({id}).then(response=>{
+        deleteTag({ tag_id }).then(response=>{
           if(response.res) {
             message.success(response.msg)
-            _t.getActicleList()
+            _t.getTagList()
           }
         })
       }
@@ -100,12 +100,12 @@ class Home extends React.Component {
         ...pagination
       }
     },()=>{
-      this.getActicleList()
+      this.getTagList()
     })
   }
-  getActicleList = () => {
+  getTagList = () => {
     const {current,pageSize} = this.state.pagination
-    getActicleList({page:current-1,size:pageSize}).then(res=>{
+    getTagList({page:current-1,size:pageSize}).then(res=>{
       console.log(res)
       if (res.res) {
         this.setState({
@@ -120,8 +120,8 @@ class Home extends React.Component {
   }
 
   updateTag = (item) => {
-    const { id } = item
-    this.props.history.push('/tag/tagEditor?id='+id)
+    const { tag_id } = item
+    this.props.history.push('/tag/Tagedit?id='+tag_id)
   }
 }
 
