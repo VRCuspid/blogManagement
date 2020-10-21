@@ -3,9 +3,12 @@ import { Form,Input,Button,message } from 'antd'
 import SimpleMDE from "react-simplemde-editor";
 import {addArticle,getActicleDetail,updateActicle} from '@/api/acticle'
 import showdown from 'showdown'
+import MdEditor from 'react-markdown-editor-lite'
+import MarkdownIt from 'markdown-it'
 import { getQueryObj } from '@/utils'
-import "easymde/dist/easymde.min.css";
+// import "easymde/dist/easymde.min.css";
 import './ArticleEditor.scss'
+import 'react-markdown-editor-lite/lib/index.css';
 const formTailLayout = {
     labelCol: { span: 4 },
     wrapperCol: { span: 18, offset: 1 },
@@ -20,6 +23,7 @@ class ArticleAdd extends React.Component  {
             act_detail:'',
             ins:null,
         }
+        this.mdParser = new MarkdownIt(/* Markdown-it options */)
     }
     componentDidMount() {
         this.getEditorData()
@@ -44,6 +48,7 @@ class ArticleAdd extends React.Component  {
             'fullscreen',
         ]
         const { getFieldDecorator } = this.props.form
+        let { act_detail } = this.state
         return <div className="wrapper form-content">
             <Form {...formTailLayout}  size="middle">
                 <Form.Item name="act_title" label="文章标题">
@@ -70,23 +75,32 @@ class ArticleAdd extends React.Component  {
                 </Form.Item>
 
                 <Form.Item name="act_detail" label="文章内容">
-                {
+                {/* {
                         getFieldDecorator('act_detail',{
                             rules: [
                                 { required: true, message:'请填写文章内容' }
                             ]
                         })(
-                            <SimpleMDE
-                                id="your-custom-id"
-                                getMdeInstance= { this.getInsance }
-                                onChange={this.handleChange}
-                                toolbar={toolbar}
-                                options={{
-                                    toolbar
-                                }}
-                            />
+                            
+                              
                         )
-                    }
+                    } */}
+                    {/* <SimpleMDE onChange={this.handleChange} />; */}
+                    {/* <SimpleMDE
+                            id="your-custom-id"
+                            getMdeInstance= { this.getInsance }
+                            onChange={this.handleChange}
+                            // toolbar={toolbar}
+                            // options={{
+                            //     toolbar
+                            // }}
+                        /> */}
+                        <MdEditor
+                            // value={act_detail}
+                            style={{height:400}}
+                            renderHTML={(text) => this.mdParser.render(text)}
+                            onChange={this.handleEditorChange} 
+                        /> 
                 </Form.Item>
                 <Form.Item wrapperCol={{ span: 12, offset: 5 }}>
                     <Button className="m-right20" onClick={this.save} type="primary" htmlType="submit" >保存</Button>
@@ -117,6 +131,12 @@ class ArticleAdd extends React.Component  {
                 message.success(response.msg)
                 this.props.history.goBack()
             }
+        })
+    }
+    handleEditorChange = (e) => {    
+        console.log('handleEditorChange', e)
+        this.setState({
+            act_detail:e.text
         })
     }
     addArticle(parmars) {
