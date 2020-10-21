@@ -2,7 +2,7 @@ import React from "react";
 import { Menu } from "antd";
 import { MenuRoute } from "@/router/router.config";
 import { Link } from "react-router-dom";
-import "./index.scss";
+import "./MenuList.scss";
 const { SubMenu } = Menu;
 class MenuList extends React.Component {
   render() {

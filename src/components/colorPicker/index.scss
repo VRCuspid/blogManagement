@@ -1,0 +1,26 @@
+.colorPicker {
+    position: relative;
+    .color {
+        width: 100px;
+        height: 40px;
+        padding: 5px 10px;
+        border: 1px solid #e4e4e4;
+        border-radius: 5px;
+        .showColor {
+            width: 100%;
+            height: 100%;
+            border-radius: 5px;
+        }
+    }
+    .picker {
+        position: absolute;
+        left:0;
+        top: 50px;
+        z-index: 999;
+        .pickerFooter {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 20px;
+        }
+    }
+}
