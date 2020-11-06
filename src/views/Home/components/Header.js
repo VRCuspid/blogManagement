@@ -10,7 +10,6 @@ class Header extends React.Component {
     }
 
     render() {
-        console.log(style)
         return <div className={style.header}>
             <div onClick={this.loginOut} className={style.headerModule}>
                 <LogoutOutlined />

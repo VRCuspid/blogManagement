@@ -11,7 +11,6 @@ class Editor extends React.Component {
     }
     render() {
         let { text,style={height:500},onChange } = this.props
-        console.log(this.props)
         return <MdEditor
             value={text}
             style={style}

@@ -6,7 +6,6 @@ class RouterView extends React.Component {
   render () {
     const {routes} = this.props
     const token = getToken()
-    console.log(routes,'routes')
     return <Switch>
       {
         routes.map(item=>{
