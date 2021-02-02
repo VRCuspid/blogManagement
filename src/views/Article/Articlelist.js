@@ -17,6 +17,10 @@ class Home extends React.Component {
           dataIndex: 'main_content',
           key: 2
         },{
+          title: '喜欢',
+          dataIndex: 'likes',
+          key: 6
+        },{
           title: '创建时间',
           dataIndex: 'create_time',
           key: 3
@@ -24,14 +28,6 @@ class Home extends React.Component {
           title: '更新时间',
           dataIndex: 'update_time',
           key: 4
-        },{
-          title: '标签',
-          dataIndex: 'tags',
-          key: 5
-        },{
-          title: '喜欢',
-          dataIndex: 'likes',
-          key: 6
         },{
           title:'操作',
           key:7,
