@@ -169,7 +169,7 @@ class ArticleAdd extends React.Component  {
                 this.props.form.setFieldsValue(res.data)
                 this.setState({act_detail:res.data.act_detail})
             } else {
-                message.error
+                message.error(res.message)
             }
         })
     }
