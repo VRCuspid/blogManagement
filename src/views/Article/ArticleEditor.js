@@ -1,21 +1,25 @@
 import React from 'react'
-import { Form,Input,Button,message } from 'antd'
+import { Form,Input,Button,message,Select } from 'antd'
 import Editor from '@/components/MdEditor'
 import SimpleMDE from "react-simplemde-editor";
 import {addArticle,getActicleDetail,updateActicle} from '@/api/acticle'
+import { getAllTag } from '@/api/tag'
 import showdown from 'showdown'
 import MdEditor from 'react-markdown-editor-lite'
 import MarkdownIt from 'markdown-it'
 import { getQueryObj } from '@/utils'
+import { WIDTH } from '@/utils/form.config'
 // import "easymde/dist/easymde.min.css";
 import './ArticleEditor.scss'
 import 'react-markdown-editor-lite/lib/index.css';
+import utils from 'markdown-it/lib/common/utils';
 const formTailLayout = {
-    labelCol: { span: 4 },
+    labelCol: { span: 3 },
     wrapperCol: { span: 18, offset: 1 },
   };
 
 const { TextArea } = Input
+const { Option } = Select
 class ArticleAdd extends React.Component  {
     constructor() {
         super()
@@ -23,11 +27,13 @@ class ArticleAdd extends React.Component  {
             textValue: 23,
             act_detail:'',
             ins:null,
+            tagList: []
         }
         this.mdParser = new MarkdownIt(/* Markdown-it options */)
     }
     componentDidMount() {
         this.getEditorData()
+        this.getAllTag()
     }
     render() {
         const toolbar = [
@@ -49,17 +55,28 @@ class ArticleAdd extends React.Component  {
             'fullscreen',
         ]
         const { getFieldDecorator } = this.props.form
-        let { act_detail } = this.state
+        let { act_detail,tagList } = this.state
         return <div className="wrapper form-content">
             <Form {...formTailLayout}  size="middle">
-                <Form.Item name="act_title" label="文章标题">
+                <Form.Item  name="act_title" label="文章标题">
                     {
                         getFieldDecorator('act_title',{
                             rules: [
                                 { required: true, message:'请填写标题' }
                             ]
                         })(
-                            <Input></Input>
+                            <Input style={{width:WIDTH}}></Input>
+                        )
+                    }
+                </Form.Item>
+                <Form.Item name="act_title" label="文章标题">
+                    {
+                        getFieldDecorator('tags')(
+                            <Select style={{width:WIDTH}} mode="multiple">
+                               { tagList.map(item=>{
+                                   return <Option key={item.tag_id}  value={item.tag_id}>{item.tag_name}</Option>
+                               })}
+                            </Select>
                         )
                     }
                 </Form.Item>
@@ -70,7 +87,7 @@ class ArticleAdd extends React.Component  {
                                 { required: true, message:'请填写梗概' }
                             ]
                         })(
-                            <TextArea rows={4}></TextArea>
+                            <TextArea style={{width:WIDTH}} rows={4}></TextArea>
                         )
                     }
                 </Form.Item>
@@ -118,6 +135,12 @@ class ArticleAdd extends React.Component  {
         this.props.form.validateFields().then(res=>{
             // const converter = new showdown.Converter()
             const act_detail = this.state.act_detail
+            const tags = res.tags.join(',')
+            const params = {
+                ...res,
+                act_detail,
+                tags
+            }
             id ? 
             this.updateActicle({...res,act_detail,id}) : 
             this.addArticle({...res,act_detail})
@@ -158,6 +181,16 @@ class ArticleAdd extends React.Component  {
     getInsance = (ins) => {
         this.setState({ins})
     }
+    getAllTag = () => {
+        getAllTag().then(res=>{
+            console.log(res)
+            if(res.status === 200) {
+                this.setState({
+                    tagList: res.data.rows
+                })
+            }
+        })
+    }
     getEditorData() {
         const query = getQueryObj(this.props.location.search)
         const { id } = query
@@ -166,7 +199,11 @@ class ArticleAdd extends React.Component  {
         }
         getActicleDetail({id}).then(res=>{
             if (res.res) {
-                this.props.form.setFieldsValue(res.data)
+                const data = {
+                    ...res.data,
+                    tags:res.data.tags.split(',')
+                }
+                this.props.form.setFieldsValue(data)
                 this.setState({act_detail:res.data.act_detail})
             } else {
                 message.error(res.message)

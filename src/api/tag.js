@@ -40,10 +40,18 @@ export function getTagDetail (params) {
         params
     })
 }
+
+export function getAllTag () {
+    return fetch({
+        url:'/api/tag/get_allTag',
+        method: 'GET'
+    })
+}
 export default {
     addTag,
     getTagList,
     updateTag,
     deleteTag,
     getTagDetail,
+    getAllTag
 }

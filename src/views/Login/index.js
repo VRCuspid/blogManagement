@@ -6,6 +6,12 @@ class Login extends React.Component {
     super(props)
     this.state = {}
   }
+  handleSubmit = () => {
+    this.props.form.validateFieldsAndScroll((err,values)=>{
+      if(err) return false;
+      console.log(values)
+    })
+  }
   render () {
     const { getFieldDecorator } = this.props.form
     return <div className="layout_container">
@@ -14,22 +20,22 @@ class Login extends React.Component {
           <Form onSubmit={this.handleSubmit} className="login-form">
             <Form.Item>
               {getFieldDecorator('username', {
-                rules: [{ required: true, message: 'Please input your username!' }]
+                rules: [{ required: true, message: '请填写用户名' }]
               })(
                 <Input
                   prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                  placeholder="Username"
+                  placeholder="用户名"
                 />
               )}
             </Form.Item>
             <Form.Item>
               {getFieldDecorator('password', {
-                rules: [{ required: true, message: 'Please input your Password!' }]
+                rules: [{ required: true, message: '请填写密码' }]
               })(
                 <Input
                   prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
                   type="password"
-                  placeholder="Password"
+                  placeholder="密码"
                 />
               )}
             </Form.Item>
@@ -37,9 +43,9 @@ class Login extends React.Component {
               {getFieldDecorator('remember', {
                 valuePropName: 'checked',
                 initialValue: true
-              })(<Checkbox>Remember me</Checkbox>)}
+              })(<Checkbox>保持登录</Checkbox>)}
               <Button type="primary" htmlType="submit" className="login_form_btn">
-            Log in
+                登录
               </Button>
             </Form.Item>
           </Form>
