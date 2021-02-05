@@ -1,25 +1,68 @@
 import React from 'react'
 import './index.css'
-import { Form, Icon, Input, Button, Checkbox } from 'antd'
+import { Form, Icon, Input, Button, Checkbox, message } from 'antd'
+import { getCode,login } from '@/api/auth'
+import { setToken } from '@/utils/auth'
+@Form.create()
 class Login extends React.Component {
-  constructor (props) {
-    super(props)
-    this.state = {}
+  state = {
+    svg: '',
+    code: ''
   }
-  handleSubmit = () => {
-    this.props.form.validateFieldsAndScroll((err,values)=>{
-      if(err) return false;
-      console.log(values)
+  componentDidMount() {
+    this.getCode()
+  }
+
+  getCode = () => {
+    getCode().then(res => {
+      if (res.res) {
+        const { svg, code } = res.data
+        this.setState({
+          svg,
+          code
+        })
+      }
     })
   }
-  render () {
+
+  login = (params) => {
+    login(params).then(res=>{
+      console.log(res)
+      if(res.res) {
+        message.success(res.msg)
+        setToken(res.data.token)
+        this.props.history.push('/')
+      } else {
+        message.error(res.msg)
+      }
+    })
+  }
+  handleSubmit = () => {
+    this.props.form.validateFieldsAndScroll((err, values) => {
+      if (err) return false;
+      console.log(values)
+      this.login(values)
+    })
+  }
+
+  render() {
     const { getFieldDecorator } = this.props.form
+    const { svg, code } = this.state
+
+    const testCod = function (rule, value, ck) {
+      const CODE = code.toUpperCase()
+      const VALUE = value.toUpperCase()
+      if(CODE !== VALUE && value) {
+        ck('验证码错误')
+      }
+      ck()
+    }
     return <div className="layout_container">
       <div className="logo">
         <div className="login_form">
           <Form onSubmit={this.handleSubmit} className="login-form">
             <Form.Item>
-              {getFieldDecorator('username', {
+              {getFieldDecorator('user_name', {
                 rules: [{ required: true, message: '请填写用户名' }]
               })(
                 <Input
@@ -29,7 +72,7 @@ class Login extends React.Component {
               )}
             </Form.Item>
             <Form.Item>
-              {getFieldDecorator('password', {
+              {getFieldDecorator('user_pwd', {
                 rules: [{ required: true, message: '请填写密码' }]
               })(
                 <Input
@@ -40,11 +83,20 @@ class Login extends React.Component {
               )}
             </Form.Item>
             <Form.Item>
-              {getFieldDecorator('remember', {
-                valuePropName: 'checked',
-                initialValue: true
-              })(<Checkbox>保持登录</Checkbox>)}
-              <Button type="primary" htmlType="submit" className="login_form_btn">
+              <div className="login_form_codeblank">
+                <div className="login_form_code" onClick={this.getCode} dangerouslySetInnerHTML={{ __html: svg }}></div>
+                {getFieldDecorator('code', {
+                  rules: [{ required: true, message: '请填写验证码' }, { validator: testCod }]
+                })(
+                  <Input
+                    style={{ width: 100 }}
+                    placeholder="验证码"
+                  />
+                )}
+              </div>
+            </Form.Item>
+            <Form.Item>
+              <Button size="large" type="primary" htmlType="submit" className="login_form_btn">
                 登录
               </Button>
             </Form.Item>
@@ -54,5 +106,4 @@ class Login extends React.Component {
     </div>
   }
 }
-const WrappedNormalLoginForm = Form.create({ name: 'normal_login' })(Login)
-export default WrappedNormalLoginForm
+export default Login

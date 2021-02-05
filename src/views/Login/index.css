@@ -30,5 +30,13 @@
   z-index: 0;
 }
 .login_form_btn {
-  float: right;
+  width: 100%;
+}
+.login_form_codeblank {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.login_form_code {
+  cursor: pointer;
 }
